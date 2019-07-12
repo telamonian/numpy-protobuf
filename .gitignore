@@ -1,0 +1,24 @@
+# test files stuff
+/figure/
+/out/
+
+# mac os stuff
+~$*
+.DS_Store
+
+# python stuff
+*.egg-info
+*.pyc
+*.ptx
+__pycache__/
+.ipynb_checkpoints/
+
+# jetbrains stuff
+.idea
+*.iml
+
+# cython builds
+cython**/*.c
+cython**/*.so
+cython**/build
+

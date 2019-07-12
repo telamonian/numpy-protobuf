@@ -1,0 +1,51 @@
+syntax = "proto3";
+
+/**
+ * aiming for a minimal representation based on the numpy.dtype Python class.
+ * See https://docs.scipy.org/doc/numpy/reference/arrays.dtypes.html
+ */
+message Dtype {
+    enum ByteOrder {
+        LITTLE_ENDIAN = 0;    // '<' order
+        BIG_ENDIAN    = 1;    // '>' order
+        NATIVE        = 2;    // '=' order
+        NA            = 3;    // '|' order (not applicable)
+    }
+
+    // the labels of the Type enum are all parsable by np.dtype()
+    enum Type {
+        float64	   = 0;    // Double precision float: sign bit, 11 bits exponent, 52 bits mantissa
+        float32	   = 1;    // Single precision float: sign bit, 8 bits exponent, 23 bits mantissa
+        float16	   = 2;    // Half precision float: sign bit, 5 bits exponent, 10 bits mantissa
+        complex128 = 3;    // Complex number, represented by two 64-bit floats (real and imaginary components)
+        complex64  = 4;    // Complex number, represented by two 32-bit floats (real and imaginary components)
+        uint64	   = 5;    // Unsigned integer (0 to 18446744073709551615)
+        uint32	   = 6;    // Unsigned integer (0 to 4294967295)
+        uint16	   = 7;    // Unsigned integer (0 to 65535)
+        uint8	   = 8;    // Unsigned integer (0 to 255)
+        int64	   = 9;    // Integer (-9223372036854775808 to 9223372036854775807)
+        int32	   = 10;   // Integer (-2147483648 to 2147483647)
+        int16	   = 11;   // Integer (-32768 to 32767)
+        int8	   = 12;   // Byte (-128 to 127)
+        S128       = 13;   // String, 1 byte for every character, 128 bytes total
+        S64        = 14;   // String, 1 byte for every character, 64 bytes total
+        S32        = 15;   // String, 1 byte for every character, 32 bytes total
+        S16        = 16;   // String, 1 byte for every character, 16 bytes total
+        S8         = 17;   // String, 1 byte for every character, 8 bytes total
+    }
+
+    message SubDtype {
+        Type type = 1;
+        repeated int64 shape = 101;
+    }
+
+    Type type                     = 1;
+    ByteOrder byte_order          = 101;
+
+    // these fields are only used for structured dtypes
+    repeated string names = 201;        // Included for ordering of fields
+    map<string, Dtype> fields = 301;    // Order of map is not guaranteed
+
+    // only used if this dtype describes a sub-array
+    Dtype subdtype = 1001;
+}
