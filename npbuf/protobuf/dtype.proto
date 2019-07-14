@@ -4,7 +4,7 @@ syntax = "proto3";
  * aiming for a minimal representation based on the numpy.dtype Python class.
  * See https://docs.scipy.org/doc/numpy/reference/arrays.dtypes.html
  */
-message Dtype {
+message dtype {
     enum ByteOrder {
         LITTLE_ENDIAN = 0;    // '<' order
         BIG_ENDIAN    = 1;    // '>' order
@@ -34,7 +34,7 @@ message Dtype {
         S8         = 17;   // String, 1 byte for every character, 8 bytes total
     }
 
-    message SubDtype {
+    message subdtype {
         Type type = 1;
         repeated int64 shape = 101;
     }
@@ -44,8 +44,8 @@ message Dtype {
 
     // these fields are only used for structured dtypes
     repeated string names = 201;        // Included for ordering of fields
-    map<string, Dtype> fields = 301;    // Order of map is not guaranteed
+    map<string, dtype> fields = 301;    // Order of map is not guaranteed
 
     // only used if this dtype describes a sub-array
-    Dtype subdtype = 1001;
+    subdtype subdtype = 1001;
 }

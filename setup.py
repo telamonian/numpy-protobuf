@@ -1,10 +1,10 @@
 #!/usr/bin/env python
 
-from Cython.Distutils import build_ext
 from distutils.errors import DistutilsExecError
 from glob import glob
 import os
-import setuptools
+import setuptools.command
+import setuptools.command.develop
 from setuptools import find_packages, setup
 import shutil
 from subprocess import check_call
@@ -61,21 +61,21 @@ class ProtocCommand(setuptools.Command):
 class DevelopCommand(setuptools.command.develop.develop):
     def run(self):
         # pass options to the protoc command and run it
-        protocCommand = self.distribution.get_command_obj('protoc')
-        protocCommand.database = self.database
+        # protocCommand = self.distribution.get_command_obj('protoc')
+        # protocCommand.database = self.database
         self.run_command('protoc')
 
         # run the normal develop command
-        super().run(self)
+        super().run()
 
 setup(
     author = 'Max Klein',
-    cmdclass = {'build_ext': build_ext,
-                'develop': DevelopCommand,
-                'protoc': ProtocCommand
+    cmdclass = {
+        'develop': DevelopCommand,
+        'protoc': ProtocCommand
     },
     description = 'provides Python protobuf types that can be used to serialize/deserialize Numpy arrays',
     license = 'Apache License, Version 2.0',
     name = 'numpy-protobuf',
-    packages = find_packages(where='.', exclude=('npbuf.protobuf'))
+    packages = find_packages(where='.', exclude=('npbuf.protobuf',))
 )

@@ -6,9 +6,9 @@ import "dtype.proto";
  * aiming for a minimal representation based the __array_interface__
  * see https://docs.scipy.org/doc/numpy/reference/arrays.interface.html
  */
-message NDArray {
+message ndarray {
     repeated int64 shape = 1;
-    Dtype dtype = 101;
+    dtype dtype = 101;
     bytes data = 201;
     repeated int64 strides = 301;
 
