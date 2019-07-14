@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-import "dtype.proto";
+import "npbuf/type/dtype.proto";
 
 /**
  * aiming for a minimal representation based the __array_interface__

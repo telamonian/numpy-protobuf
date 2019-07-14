@@ -1,2 +1,2 @@
-from npbuf.protobuf_py.dtype_pb2 import Dtype
-from npbuf.protobuf_py.ndarray_pb2 import NDArray
+from npbuf.type.dtype_pb2 import dtype
+from npbuf.type.ndarray_pb2 import ndarray

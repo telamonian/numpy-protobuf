@@ -34,11 +34,6 @@ message dtype {
         S8         = 17;   // String, 1 byte for every character, 8 bytes total
     }
 
-    message subdtype {
-        Type type = 1;
-        repeated int64 shape = 101;
-    }
-
     Type type                     = 1;
     ByteOrder byte_order          = 101;
 
@@ -48,4 +43,9 @@ message dtype {
 
     // only used if this dtype describes a sub-array
     subdtype subdtype = 1001;
+}
+
+message subdtype {
+    dtype.Type type = 1;
+    repeated int64 shape = 101;
 }

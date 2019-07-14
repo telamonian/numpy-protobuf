@@ -38,12 +38,15 @@ class ProtocCommand(setuptools.Command):
             # bail if self.raises is False and protoc isn't found
             return
 
-        protoDir = os.path.join(thisScriptDir, 'npbuf', 'protobuf')
-        protoOutDir = os.path.join(thisScriptDir, 'npbuf', 'protobuf_py')
-        protoSrcs = glob(os.path.join(protoDir, '*.proto'))
+        protoDir = os.path.join(thisScriptDir, 'protobuf')
+        protoSrcs = glob(os.path.join(protoDir, 'npbuf', 'type', '*.proto'))
+
+        protoOutRoot = thisScriptDir
+        protoOutDir = os.path.join(protoOutRoot, 'npbuf', 'type')
 
         # clean up any existing compiled protobufs
         shutil.rmtree(protoOutDir, ignore_errors=True)
+
         # create a new module for the compiled protobufs, including an `__init__.py`
         os.mkdir(protoOutDir)
         with open(os.path.join(protoOutDir, '__init__.py'), 'w') as f: pass
@@ -52,7 +55,7 @@ class ProtocCommand(setuptools.Command):
         protoc_python_cmd = [
             self.protoc,
             '--proto_path=%s' % protoDir,
-            '--python_out=%s' % protoOutDir,
+            '--python_out=%s' % protoOutRoot,
             ]
         protoc_python_cmd.extend(protoSrcs)
 
@@ -77,5 +80,5 @@ setup(
     description = 'provides Python protobuf types that can be used to serialize/deserialize Numpy arrays',
     license = 'Apache License, Version 2.0',
     name = 'numpy-protobuf',
-    packages = find_packages(where='.', exclude=('npbuf.protobuf',))
+    packages = find_packages(where='.', exclude=('protobuf',))
 )
